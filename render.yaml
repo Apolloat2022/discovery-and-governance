@@ -27,7 +27,10 @@ services:
   - type: web
     name: prism-web
     runtime: static
-    plan: free
+    # No `plan` field here — static sites are unconditionally free on Render
+    # and don't support plan selection; including one fails Blueprint
+    # validation. prism-api above still needs plan: free since it's a real
+    # web service, which defaults to the paid "starter" tier otherwise.
     buildCommand: npm ci --include=dev && npm run build -w web
     staticPublishPath: web/dist
     envVars:

@@ -1,0 +1,39 @@
+# Render Blueprint for Project Prism. Deploy via Render's dashboard:
+# New + → Blueprint → connect this repo → Apply.
+#
+# Two free services:
+#   prism-api  — Fastify backend. Reseeds its demo database on every boot, so
+#                the free tier's lack of a persistent disk is a non-issue —
+#                a fresh, known-good demo dataset is actually what you want.
+#   prism-web  — static React build, served from Render's CDN (always-on,
+#                no cold start, unlike the API service).
+#
+# IMPORTANT: onrender.com service names are shared across all Render users.
+# If "prism-api" is already taken, Render will suffix it (e.g. prism-api-a1b2).
+# After the first deploy, confirm prism-api's actual URL in the Render
+# dashboard, update prism-web's VITE_API_BASE_URL below (or in the dashboard)
+# to match, and trigger a manual redeploy of prism-web — Vite bakes env vars
+# in at build time, so this won't pick up automatically at runtime.
+
+services:
+  - type: web
+    name: prism-api
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build -w server
+    startCommand: npm run seed && npm run start
+    healthCheckPath: /api/health
+
+  - type: web
+    name: prism-web
+    runtime: static
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build -w web
+    staticPublishPath: web/dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://prism-api.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

@@ -19,6 +19,15 @@ import type {
 
 const CURRENT_USER_KEY = "prism.currentUserId";
 
+/**
+ * In local dev, requests are relative and Vite's dev-server proxy forwards
+ * `/api` to the backend. In production the frontend and backend are deployed
+ * as separate Render services with different origins, so `VITE_API_BASE_URL`
+ * (set at build time) points requests at the real backend URL instead.
+ */
+const configuredApiBase = import.meta.env.VITE_API_BASE_URL?.trim()?.replace(/\/+$/, "");
+const API_BASE_URL = configuredApiBase || window.location.origin;
+
 export function getCurrentUserId(): string | null {
   return localStorage.getItem(CURRENT_USER_KEY);
 }
@@ -54,7 +63,7 @@ async function request<T>(
   path: string,
   options: { query?: Record<string, string | number | boolean | undefined>; body?: unknown } = {},
 ): Promise<T> {
-  const url = new URL(path, window.location.origin);
+  const url = new URL(path, API_BASE_URL);
   for (const [key, value] of Object.entries(options.query ?? {})) {
     if (value !== undefined && value !== "") url.searchParams.set(key, String(value));
   }

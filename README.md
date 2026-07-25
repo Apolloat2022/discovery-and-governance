@@ -45,6 +45,35 @@ npm test               # 35 backend tests (vitest)
 npm run build          # typecheck + production build of both workspaces
 ```
 
+## Deployment (Render)
+
+`render.yaml` at the repo root is a [Render Blueprint](https://render.com/docs/infrastructure-as-code)
+defining two free services:
+
+- **`prism-api`** — the Fastify backend, as a Node web service. It reseeds its demo
+  database on every boot (`npm run seed && npm run start`), so the free tier's lack of a
+  persistent disk is a non-issue — a fresh, known-good dataset on every restart is exactly
+  what a public demo wants. It spins down after 15 minutes of inactivity and cold-starts
+  (~30-60s) on the next request, which is normal for Render's free web service tier.
+- **`prism-web`** — the React dashboard, as a static site served from Render's CDN.
+  Always-on, no cold start. Built with `VITE_API_BASE_URL` pointing at the backend, since
+  the two are separate origins in production (locally, Vite's dev proxy handles this
+  instead — see `web/src/api/client.ts`).
+
+**To deploy:** in the Render dashboard, **New +** → **Blueprint** → connect this repo →
+**Apply**. Render provisions both services from `render.yaml` automatically.
+
+**One manual step after the first deploy.** `onrender.com` service names are shared across
+all Render users — if `prism-api` is already taken, Render suffixes it (e.g.
+`prism-api-a1b2`), and `render.yaml`'s hardcoded `VITE_API_BASE_URL` won't match. Check
+`prism-api`'s actual URL in the Render dashboard; if it differs from
+`https://prism-api.onrender.com`, update `VITE_API_BASE_URL` on the `prism-web` service
+(dashboard → Environment) and trigger a manual redeploy of `prism-web` — Vite bakes env
+vars in at build time, so this doesn't take effect until the next build.
+
+The backend's CORS is already wide open (`access-control-allow-origin: *`), so no
+configuration is needed there regardless of what domains either service ends up on.
+
 ## Architecture
 
 ```

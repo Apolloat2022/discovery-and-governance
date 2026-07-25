@@ -47,6 +47,10 @@ npm run build          # typecheck + production build of both workspaces
 
 ## Deployment (Render)
 
+**Live demo: https://prism-web-65s7.onrender.com** (backend:
+https://prism-api-ixux.onrender.com). The backend is on Render's free tier and spins down
+after 15 minutes idle — the first request after a while takes ~30-60s to wake it up.
+
 `render.yaml` at the repo root is a [Render Blueprint](https://render.com/docs/infrastructure-as-code)
 defining two free services:
 
@@ -63,13 +67,14 @@ defining two free services:
 **To deploy:** in the Render dashboard, **New +** → **Blueprint** → connect this repo →
 **Apply**. Render provisions both services from `render.yaml` automatically.
 
-**One manual step after the first deploy.** `onrender.com` service names are shared across
-all Render users — if `prism-api` is already taken, Render suffixes it (e.g.
-`prism-api-a1b2`), and `render.yaml`'s hardcoded `VITE_API_BASE_URL` won't match. Check
-`prism-api`'s actual URL in the Render dashboard; if it differs from
-`https://prism-api.onrender.com`, update `VITE_API_BASE_URL` on the `prism-web` service
-(dashboard → Environment) and trigger a manual redeploy of `prism-web` — Vite bakes env
-vars in at build time, so this doesn't take effect until the next build.
+**The one manual step this actually required.** `onrender.com` service names are shared
+across all Render users, and both `prism-api` and `prism-web` were already taken — Render
+assigned `prism-api-ixux` and `prism-web-65s7` instead. `render.yaml`'s `VITE_API_BASE_URL`
+is updated to match the real name. If either service is ever deleted and recreated, it may
+get a *different* suffix — check the new name in the dashboard, update
+`VITE_API_BASE_URL` in `render.yaml`, and push (Vite bakes env vars in at build time, so a
+rebuild of `prism-web` is required either way; the connected GitHub App triggers that
+automatically on push).
 
 The backend's CORS is already wide open (`access-control-allow-origin: *`), so no
 configuration is needed there regardless of what domains either service ends up on.

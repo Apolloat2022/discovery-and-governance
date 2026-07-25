@@ -8,12 +8,11 @@
 #   prism-web  — static React build, served from Render's CDN (always-on,
 #                no cold start, unlike the API service).
 #
-# IMPORTANT: onrender.com service names are shared across all Render users.
-# If "prism-api" is already taken, Render will suffix it (e.g. prism-api-a1b2).
-# After the first deploy, confirm prism-api's actual URL in the Render
-# dashboard, update prism-web's VITE_API_BASE_URL below (or in the dashboard)
-# to match, and trigger a manual redeploy of prism-web — Vite bakes env vars
-# in at build time, so this won't pick up automatically at runtime.
+# NOTE: "prism-api" was already taken on Render (onrender.com names are
+# shared across all users), so the real deployed name is prism-api-ixux —
+# VITE_API_BASE_URL below reflects that. If this service is ever recreated
+# under a different name, update it here again and push — Vite bakes env
+# vars in at build time, so a redeploy of prism-web is required either way.
 
 services:
   - type: web
@@ -35,7 +34,7 @@ services:
     staticPublishPath: web/dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: https://prism-api.onrender.com
+        value: https://prism-api-ixux.onrender.com
     routes:
       - type: rewrite
         source: /*

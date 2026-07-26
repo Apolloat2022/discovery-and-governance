@@ -111,7 +111,7 @@ export function CreatePage() {
             />
           </div>
 
-          <div className="flex-row" style={{ gap: "var(--space-5)" }}>
+          <div className="form-row">
             <div className="field" style={{ flex: 1 }}>
               <label className="field-label" htmlFor="type">
                 Type
@@ -225,7 +225,7 @@ function DuplicateIntercept({
       <div className="flex-col">
         {similar.map(({ artifact, similarity }) => (
           <div className="card card-pad" key={artifact.id}>
-            <div className="flex-row" style={{ justifyContent: "space-between", alignItems: "flex-start" }}>
+            <div className="flex-row" style={{ justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12 }}>
               <div className="flex-col" style={{ gap: 6, minWidth: 0 }}>
                 <div className="chip-row">
                   <TypeBadge type={artifact.type} />

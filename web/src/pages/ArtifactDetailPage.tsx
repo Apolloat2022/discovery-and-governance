@@ -101,7 +101,7 @@ export function ArtifactDetailPage() {
           </SectionCard>
 
           <SectionCard title="Inputs & outputs">
-            <div className="flex-row" style={{ alignItems: "flex-start", gap: "var(--space-6)" }}>
+            <div className="form-row">
               <div className="flex-col" style={{ gap: 6, flex: 1 }}>
                 <span className="text-faint text-sm">Inputs</span>
                 <div className="tag-list">

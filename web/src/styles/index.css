@@ -850,6 +850,18 @@ textarea.input {
   gap: var(--space-3);
 }
 
+.form-row {
+  display: flex;
+  gap: var(--space-5);
+  align-items: flex-start;
+}
+
+.trust-slider {
+  width: 90px;
+  min-width: 0;
+  flex-shrink: 1;
+}
+
 .text-muted {
   color: var(--color-text-muted);
 }
@@ -1118,5 +1130,20 @@ textarea.input {
 
   .result-card-top {
     flex-wrap: wrap;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .form-row > * {
+    width: 100%;
+  }
+
+  .input,
+  select.input,
+  textarea.input {
+    font-size: 16px;
   }
 }

@@ -117,7 +117,7 @@ export function GovernancePage() {
                     </div>
 
                     {canGovern && (
-                      <div className="flex-row">
+                      <div className="flex-row" style={{ flexWrap: "wrap" }}>
                         {flag.kind === "duplicate" && (
                           <button
                             type="button"

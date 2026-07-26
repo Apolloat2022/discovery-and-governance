@@ -128,7 +128,7 @@ export function SearchPage() {
             ))}
           </div>
 
-          <div className="flex-row">
+          <div className="flex-row" style={{ flexWrap: "wrap" }}>
             <label className="flex-row text-sm" style={{ gap: 6 }}>
               <input
                 type="checkbox"
@@ -147,6 +147,7 @@ export function SearchPage() {
                 step={10}
                 value={minTrust}
                 onChange={(e) => setMinTrust(Number(e.target.value))}
+                className="trust-slider"
               />
               <span className="mono" style={{ minWidth: 24 }}>
                 {minTrust}

@@ -183,7 +183,30 @@ textarea {
 
 .topbar-search {
   flex: 1;
+  min-width: 0;
   max-width: 520px;
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.nav-toggle:hover {
+  background: var(--color-neutral-soft);
+}
+
+.sidebar-backdrop {
+  display: none;
 }
 
 .topbar-spacer {
@@ -723,6 +746,11 @@ textarea.input {
   background: var(--color-neutral-soft);
 }
 
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* -------------------------------------------------------------------------- states */
 
 .state-block {
@@ -989,4 +1017,106 @@ textarea.input {
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 260px;
+}
+
+/* ------------------------------------------------------------- responsive grids */
+
+.two-col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.cost-bar-label {
+  width: 220px;
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------- mobile */
+
+@media (max-width: 860px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    max-width: 80vw;
+    transform: translateX(-100%);
+    transition: transform 0.18s ease;
+    box-shadow: var(--shadow-popover);
+    z-index: 40;
+  }
+
+  .app-shell.nav-open .sidebar {
+    transform: translateX(0);
+  }
+
+  .app-shell.nav-open .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 24, 33, 0.4);
+    z-index: 35;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .topbar {
+    padding: var(--space-3) var(--space-4);
+    gap: var(--space-2);
+  }
+
+  .page {
+    padding: var(--space-4);
+  }
+
+  .two-col-grid,
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .user-switcher-name,
+  .user-switcher-role {
+    display: none;
+  }
+
+  .user-switcher-trigger {
+    min-width: 0;
+    padding: var(--space-1) var(--space-2);
+  }
+
+  .page {
+    padding: var(--space-3);
+  }
+
+  .card-pad {
+    padding: var(--space-4);
+  }
+
+  .cost-bar-label {
+    width: 96px;
+  }
+
+  .result-card-top {
+    flex-wrap: wrap;
+  }
 }

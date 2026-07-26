@@ -94,7 +94,7 @@ export function ArtifactDetailPage() {
         <TrustMeter score={artifact.trustScore} />
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "var(--space-5)", alignItems: "start" }}>
+      <div className="detail-grid">
         <div className="flex-col">
           <SectionCard title="Content">
             <pre className="code-block">{artifact.content}</pre>

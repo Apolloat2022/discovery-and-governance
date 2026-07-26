@@ -16,14 +16,7 @@ export function CostBarChart({ items }: { items: AnalyticsOverview["costByArtifa
           onClick={() => navigate(`/artifacts/${item.artifact.id}`)}
         >
           <span
-            className="text-sm"
-            style={{
-              width: 220,
-              flexShrink: 0,
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
+            className="text-sm cost-bar-label"
             title={item.artifact.name}
           >
             {item.artifact.name}

@@ -44,7 +44,7 @@ export function AnalyticsPage() {
             <StatTile label="Cost (30d)" value={formatUsd(data.totals.costUsd30d)} />
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-5)", alignItems: "start" }}>
+          <div className="two-col-grid">
             <div className="card card-pad flex-col">
               <h2 className="section-title">Top by usage</h2>
               {data.topByUsage.length === 0 ? (

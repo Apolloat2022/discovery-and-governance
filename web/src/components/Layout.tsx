@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { TopbarSearch } from "./TopbarSearch";
 import { UserSwitcher } from "./UserSwitcher";
@@ -11,8 +12,10 @@ const NAV_ITEMS = [
 ];
 
 export function Layout() {
+  const [navOpen, setNavOpen] = useState(false);
+
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${navOpen ? "nav-open" : ""}`}>
       <aside className="sidebar">
         <div className="brand">
           <span className="brand-mark">P</span>
@@ -25,6 +28,7 @@ export function Layout() {
               to={item.to}
               end={item.end}
               className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+              onClick={() => setNavOpen(false)}
             >
               <span className="nav-icon">{item.icon}</span>
               {item.label}
@@ -36,8 +40,18 @@ export function Layout() {
         </div>
       </aside>
 
+      {navOpen && <div className="sidebar-backdrop" onClick={() => setNavOpen(false)} />}
+
       <div className="main-column">
         <header className="topbar">
+          <button
+            type="button"
+            className="nav-toggle"
+            aria-label="Toggle navigation"
+            onClick={() => setNavOpen((v) => !v)}
+          >
+            ☰
+          </button>
           <TopbarSearch />
           <div className="topbar-spacer" />
           <UserSwitcher />

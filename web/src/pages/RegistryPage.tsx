@@ -107,49 +107,51 @@ export function RegistryPage() {
           {sorted.length === 0 ? (
             <StateBlock icon="▤" title="No capabilities match these filters" />
           ) : (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th>Team</th>
-                  <th>Status</th>
-                  <th className="sortable" onClick={() => toggleSort("trust")}>
-                    Trust{sortIndicator("trust")}
-                  </th>
-                  <th className="sortable" onClick={() => toggleSort("usage")}>
-                    Usage{sortIndicator("usage")}
-                  </th>
-                  <th className="sortable" onClick={() => toggleSort("updated")}>
-                    Updated{sortIndicator("updated")}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {sorted.map((artifact: Artifact) => (
-                  <tr key={artifact.id} className="table-row-link" onClick={() => navigate(`/artifacts/${artifact.id}`)}>
-                    <td>
-                      <div className="flex-row" style={{ gap: 8 }}>
-                        <span style={{ fontWeight: 600 }}>{artifact.name}</span>
-                        {artifact.certified && <CertifiedBadge />}
-                      </div>
-                    </td>
-                    <td>
-                      <TypeBadge type={artifact.type} />
-                    </td>
-                    <td className="text-muted">{teamLabel(artifact.teamId)}</td>
-                    <td>
-                      <StatusPill status={artifact.status} />
-                    </td>
-                    <td>
-                      <TrustMeter score={artifact.trustScore} compact />
-                    </td>
-                    <td className="mono text-muted">{artifact.trust.usageCount}</td>
-                    <td className="text-muted">{formatRelativeDate(artifact.updatedAt)}</td>
+            <div className="table-wrap">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Team</th>
+                    <th>Status</th>
+                    <th className="sortable" onClick={() => toggleSort("trust")}>
+                      Trust{sortIndicator("trust")}
+                    </th>
+                    <th className="sortable" onClick={() => toggleSort("usage")}>
+                      Usage{sortIndicator("usage")}
+                    </th>
+                    <th className="sortable" onClick={() => toggleSort("updated")}>
+                      Updated{sortIndicator("updated")}
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {sorted.map((artifact: Artifact) => (
+                    <tr key={artifact.id} className="table-row-link" onClick={() => navigate(`/artifacts/${artifact.id}`)}>
+                      <td>
+                        <div className="flex-row" style={{ gap: 8 }}>
+                          <span style={{ fontWeight: 600 }}>{artifact.name}</span>
+                          {artifact.certified && <CertifiedBadge />}
+                        </div>
+                      </td>
+                      <td>
+                        <TypeBadge type={artifact.type} />
+                      </td>
+                      <td className="text-muted">{teamLabel(artifact.teamId)}</td>
+                      <td>
+                        <StatusPill status={artifact.status} />
+                      </td>
+                      <td>
+                        <TrustMeter score={artifact.trustScore} compact />
+                      </td>
+                      <td className="mono text-muted">{artifact.trust.usageCount}</td>
+                      <td className="text-muted">{formatRelativeDate(artifact.updatedAt)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       )}
